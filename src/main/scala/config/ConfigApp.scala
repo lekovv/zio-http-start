@@ -9,14 +9,19 @@ case class Interface(
     port: Int
 )
 
+case class CatFacts(url: String)
+
 case class ConfigApp(
-    interface: Interface
+    interface: Interface,
+    catFacts: CatFacts
 )
 
 object ConfigApp {
 
-  implicit val configDescriptor: Config[ConfigApp] =
-    deriveConfig[Interface]
-      .nested("interface")
-      .to[ConfigApp]
+  implicit val configDescriptor: Config[ConfigApp] = (
+    deriveConfig[Interface].nested("interface") zip
+      deriveConfig[CatFacts].nested("catFacts")
+  )
+    .to[ConfigApp]
+    .mapKey(toKebabCase)
 }

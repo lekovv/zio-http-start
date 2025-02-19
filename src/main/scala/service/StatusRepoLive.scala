@@ -5,7 +5,7 @@ import zio.{Task, ULayer, ZIO, ZLayer}
 
 final case class StatusRepoLive() extends StatusRepo {
 
-  var statuses: Map[String, StatusModel] = Map.empty
+  private var statuses: Map[String, StatusModel] = Map.empty
 
   override def getAllStatuses: Task[List[StatusModel]] = ZIO.succeed(statuses.values.toList)
 
